@@ -45,9 +45,9 @@ public class AuthorDAOTest{
 
         Author authorUpdated = new Author(author.getId(), "Another name");
         authorDAO.save(authorUpdated);
-        List<Author> groupsFromDB = authorDAO.findAll();
+        List<Author> authorsDB = authorDAO.findAll();
 
-        assertTrue(groupsFromDB.contains(authorUpdated));
+        assertTrue(authorsDB.contains(authorUpdated));
     }
 
 }
