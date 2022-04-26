@@ -29,7 +29,7 @@ public class BookItemDAOTest {
     @Test
     void testSave() throws DAOException {
 
-        BookItem book = new BookItem(1, "The Adventures of Tom Sawyer", null, null, null);
+        BookItem book = new BookItem(  "The Adventures of Tom Sawyer");
         book.setId(bookDAO.save(book).getId());
 
         Optional<BookItem> bookDB = bookDAO.findById(book.getId());

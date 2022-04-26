@@ -24,6 +24,23 @@ public class BookItem extends Book implements Entity<Integer> {
     public BookItem() {
     }
 
+    public BookItem(String title) {
+        setTitle(title);
+    }
+
+    public BookItem(Integer id, String title) {
+        setTitle(title);
+        setId(id);
+    }
+
+    public BookItem(Integer isbn, String title, String barcode, String status) {
+        setIsbn(isbn);
+        setTitle(title);
+        this.barcode = barcode;
+        this.status = status;
+    }
+
+
     public BookItem(int isbn, String title, String barcode, String status, Date borrowed) {
         this.setIsbn(isbn);
         this.setTitle(title);
@@ -87,5 +104,15 @@ public class BookItem extends Book implements Entity<Integer> {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), id, barcode, status, borrowed);
+    }
+
+    @Override
+    public String toString() {
+        return "BookItem{" +
+                "id=" + id +
+                ", barcode='" + barcode + '\'' +
+                ", status='" + status + '\'' +
+                ", borrowed=" + borrowed +
+                '}';
     }
 }

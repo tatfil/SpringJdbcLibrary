@@ -36,8 +36,6 @@ public class AccountDAOTest {
 
         Optional<Account> accountDB = accountDAO.findById(account.getId());
         assertEquals(Optional.of(account), accountDB);
-
-
     }
 
     @Test

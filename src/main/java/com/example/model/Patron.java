@@ -23,6 +23,10 @@ public class Patron implements Entity<Integer> {
         this.id = id;
     }
 
+    public Patron(String name) {
+        this.name = name;
+    }
+
     public Patron(String name, String address) {
         this.name = name;
         this.address = address;
@@ -82,3 +86,4 @@ public class Patron implements Entity<Integer> {
                 '}';
     }
 }
+

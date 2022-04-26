@@ -4,6 +4,7 @@ import com.example.dao.AccountDAO;
 import com.example.exception.DAOException;
 import com.example.exception.EntityException;
 import com.example.model.Account;
+import com.example.model.AccountDTO;
 import com.example.service.AccountService;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +45,12 @@ public class AccountServiceImpl implements AccountService {
         accountDAO.deleteById(id);
     }
 
-
+    @Override
+    public AccountDTO getAccountDTO(Account account) throws DAOException {
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setId(account.getId());
+        accountDTO.setPatronName(accountDAO.getPatronName(account));
+        accountDTO.setState(account.getState());
+        return accountDTO;
+    }
 }

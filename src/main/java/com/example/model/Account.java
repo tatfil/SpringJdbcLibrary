@@ -1,5 +1,7 @@
 package com.example.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -9,7 +11,6 @@ public class Account implements Entity<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
 
     private Integer patronId;
 

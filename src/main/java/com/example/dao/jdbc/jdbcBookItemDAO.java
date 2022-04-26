@@ -56,13 +56,13 @@ public class jdbcBookItemDAO extends AbstractDAO<BookItem, Integer> implements B
         parameters.put("borrowed", entity.getBorrowed());
 
 
-        try {
+//        try {
             entity.setId((int) simpleJdbcInsert.executeAndReturnKey(parameters));
             return entity;
-        } catch (DataAccessException e){
-            logger.warn("Failed to create book '{}'", entity);
-            throw new DAOException(e, entity);
-        }
+//        } catch (DataAccessException e){
+//            logger.warn("Failed to create book '{}'", entity);
+//            throw new DAOException(e, entity);
+//        }
     }
 
     @Override

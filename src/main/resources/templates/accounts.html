@@ -22,12 +22,12 @@
 <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <ul class="navbar-nav">
-            <a class="navbar-brand" href="">Library</a>
+            <a class="navbar-brand" href="/">Library</a>
             <li class="nav-item">
                 <a class="nav-link" href="books">Books</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="account">Accounts</a>
+                <a class="nav-link" href="accounts">Accounts</a>
             </li>
 
         </ul>
@@ -48,22 +48,23 @@
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">patron_id</th>
+                    <th scope="col">name</th>
                     <th scope="col">State</th>
 
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="account : ${accountPage}">
-                    <td th:text="${account.id}"></td>
-                    <td th:text="${account.patronId}"></td>
-                    <td th:text="${account.state}"></td>
+                <tr th:each="accountDTO : ${accountPage}">
+                    <td th:text="${accountDTO.id}"></td>
+                    <td th:text="${accountDTO.patronName}"></td>
+                    <td th:text="${accountDTO.state}"></td>
                 </tr>
                 </tbody>
             </table>
 
         </div>
     </div>
+    <a href="newAccount" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Add new account</a>
 </div>
 </body>
 </html>

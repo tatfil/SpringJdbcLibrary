@@ -8,6 +8,18 @@ public class Book {
     private String title;
 
 
+    public Book() {
+    }
+
+    public Book(String title) {
+        this.title = title;
+    }
+
+    public Book(int isbn, String title) {
+        this.isbn = isbn;
+        this.title = title;
+    }
+
     public int getIsbn() {
         return isbn;
     }

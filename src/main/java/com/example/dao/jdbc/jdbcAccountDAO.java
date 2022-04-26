@@ -23,6 +23,9 @@ public class jdbcAccountDAO extends AbstractDAO<Account, Integer> implements Acc
     private static final String UPDATE = "UPDATE accounts SET patron_id = ?, state = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM accounts where id = ?";
 
+    private static final String GET_PATRON_NAME = "SELECT patrons.name FROM patrons where patrons.id = ?";
+
+
     Logger logger = LoggerFactory.getLogger("JdbcAccountDao");
 
 
@@ -101,6 +104,17 @@ public class jdbcAccountDAO extends AbstractDAO<Account, Integer> implements Acc
             throw new DAOException("Failed to delete account by id " + id);
         }
     }
+
+    @Override
+    public String getPatronName(Account account) throws DAOException {
+        try {
+            return this.jdbcTemplate.queryForObject(GET_PATRON_NAME, String.class, account.getId());
+        } catch (DataAccessException e){
+            logger.warn("Failed to find patron name");
+            throw new DAOException(e);
+        }
+    }
+
 
     @Override
     public void changeState(String state, Account account) {
