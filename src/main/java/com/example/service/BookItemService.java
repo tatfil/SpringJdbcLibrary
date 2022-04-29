@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.exception.DAOException;
 import com.example.exception.EntityException;
 import com.example.model.Account;
+import com.example.model.Author;
 import com.example.model.BookItem;
 
 import java.util.List;
@@ -20,10 +21,8 @@ public interface BookItemService {
 
     Optional<BookItem> findByTitle(String name)  throws DAOException;
 
-    void addBookToAccount(BookItem book, Account account) throws DAOException;
 
-    List<BookItem> getBooksFromAccount(Account account) throws DAOException;
 
-    void removeBookFromAccount(BookItem book, Account account)  throws DAOException;
+    void addBookToAuthor(BookItem book, Author author) throws DAOException;
 
 }

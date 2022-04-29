@@ -40,21 +40,19 @@
 
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+<<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <ul class="navbar-nav">
             <a class="navbar-brand" href="/">Library</a>
             <li class="nav-item">
-                <a class="nav-link" href="books">Books</a>
+                <a class="nav-link" href="/books/booksList">Books</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="accounts">Accounts</a>
+                <a class="nav-link" href="/accounts/accountsList">Accounts</a>
             </li>
-
         </ul>
     </div>
-</nav>
-<div class="container">
+</nav><div class="container">
     <main>
         <div class="py-5 text-center">
             <h2>New book form</h2>
@@ -63,8 +61,7 @@
         <div class="row g-5">
             <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">Book information</h4>
-                <form class="needs-validation" novalidate="" th:action="@{/newBook}" th:object="${bookItem}"
-                      method="post">
+                <form class="needs-validation" novalidate="" th:action="@{/newBook}" th:object="${bookItem}" method="post">
                     <div class="row g-3">
                         <div class="col-sm-12">
                             <label for="title" class="form-label">Book title</label>

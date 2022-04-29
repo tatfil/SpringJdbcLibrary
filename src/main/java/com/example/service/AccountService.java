@@ -22,4 +22,10 @@ public interface AccountService {
     void deleteById(Integer id) throws DAOException, EntityException;
 
     AccountDTO getAccountDTO(Account account) throws DAOException;
+
+    void addBookToAccount(BookItem book, Account account) throws DAOException;
+
+    List<BookItem> getBooksFromAccount(Account account) throws DAOException;
+
+    void removeBookFromAccount(Integer bookItemId, Integer accountId)  throws DAOException;
 }

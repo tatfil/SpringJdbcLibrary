@@ -40,7 +40,7 @@ class BookItemControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.get("/books"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("books.html"))
+                .andExpect(MockMvcResultMatchers.view().name("booksList.html"))
 
                 .andExpect(MockMvcResultMatchers.model().attributeExists("bookPage"))
                 .andExpect(

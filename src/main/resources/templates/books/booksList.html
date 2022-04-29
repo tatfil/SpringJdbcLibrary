@@ -19,17 +19,16 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+<<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <ul class="navbar-nav">
             <a class="navbar-brand" href="/">Library</a>
             <li class="nav-item">
-                <a class="nav-link" href="books">Books</a>
+                <a class="nav-link" href="/books/booksList">Books</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="accounts">Accounts</a>
+                <a class="nav-link" href="/accounts/accountsList">Accounts</a>
             </li>
-
         </ul>
     </div>
 </nav>
@@ -57,7 +56,10 @@
                 <tbody>
                 <tr th:each="book : ${bookPage}">
                     <td th:text="${book.id}"></td>
-                    <td th:text="${book.title}"></td>
+
+                    <td>
+                        <a th:href="@{/books/__${book.id}__}" th:text="${book.title}">    </a>
+                    </td>
                     <td th:text="${book.isbn}"></td>
                     <td th:text="${book.status}"></td>
                 </tr>

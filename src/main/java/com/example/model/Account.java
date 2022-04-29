@@ -1,15 +1,14 @@
 package com.example.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @javax.persistence.Entity
 public class Account implements Entity<Integer> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     private Integer patronId;

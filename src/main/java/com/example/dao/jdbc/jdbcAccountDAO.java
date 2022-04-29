@@ -3,9 +3,11 @@ package com.example.dao.jdbc;
 import com.example.dao.AbstractDAO;
 import com.example.dao.AccountDAO;
 import com.example.dao.jdbc.mappers.AccountMapper;
+import com.example.dao.jdbc.mappers.BookItemMapper;
 import com.example.exception.DAOException;
 import com.example.exception.EntityException;
 import com.example.model.Account;
+import com.example.model.BookItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -25,6 +27,15 @@ public class jdbcAccountDAO extends AbstractDAO<Account, Integer> implements Acc
 
     private static final String GET_PATRON_NAME = "SELECT patrons.name FROM patrons where patrons.id = ?";
 
+    private static final String ADD_BOOK_TO_ACCOUNT = "INSERT INTO accounts_books(book_id, account_id) VALUES ( ?, ?) ";
+    private static final String GET_BOOKS_FROM_ACCOUNT = "SELECT books.id, title, isbn, barcode, status, borrowed "
+            + "FROM books "
+            + "INNER JOIN accounts_books "
+            + "ON books.id = accounts_books.book_id "
+            + "WHERE account_id = ?";
+    private static final String REMOVE_BOOK_FROM_ACCOUNT = "DELETE FROM accounts_books "
+            + "WHERE accounts_books.account_id=? "
+            + "AND accounts_books.book_id =?";
 
     Logger logger = LoggerFactory.getLogger("JdbcAccountDao");
 
@@ -120,4 +131,35 @@ public class jdbcAccountDAO extends AbstractDAO<Account, Integer> implements Acc
     public void changeState(String state, Account account) {
 
     }
+
+    @Override
+    public void addBookToAccount(BookItem book, Account account) throws DAOException{
+        try {
+            jdbcTemplate.update(ADD_BOOK_TO_ACCOUNT, book.getId(), account.getId());
+        } catch (DataAccessException e) {
+            logger.warn("Failed to add book '{}' to account '{}'", book, account.getId());
+            throw new DAOException(e, book, account.getId());
+        }
+    }
+
+    @Override
+    public List<BookItem> getBooksFromAccount(Account account) throws DAOException{
+        try {
+            return jdbcTemplate.query(GET_BOOKS_FROM_ACCOUNT, new BookItemMapper(), account.getId());
+        } catch (DataAccessException e){
+            logger.warn("Failed to get books from account '{}'", account);
+            throw new DAOException(e, account);
+        }
+    }
+
+    @Override
+    public void removeBookFromAccount(Integer bookItemId, Integer accountId)  throws DAOException{
+        try {
+            jdbcTemplate.update(REMOVE_BOOK_FROM_ACCOUNT, accountId, bookItemId);
+        } catch (DataAccessException e){
+            logger.warn("Failed to remove book '{}' from account '{}'", bookItemId, accountId);
+            throw new DAOException(e, bookItemId, accountId);
+        }
+    }
+
 }

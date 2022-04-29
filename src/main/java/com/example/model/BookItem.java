@@ -11,7 +11,7 @@ import java.util.Objects;
 public class BookItem extends Book implements Entity<Integer> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     private String barcode;
@@ -31,6 +31,14 @@ public class BookItem extends Book implements Entity<Integer> {
     public BookItem(Integer id, String title) {
         setTitle(title);
         setId(id);
+    }
+
+    public BookItem(Book book, String barcode, String status, Date borrowed) {
+        setIsbn(book.getIsbn());
+        setTitle(book.getTitle());
+        this.barcode = barcode;
+        this.status = status;
+        this.borrowed = borrowed;
     }
 
     public BookItem(Integer isbn, String title, String barcode, String status) {
@@ -91,6 +99,7 @@ public class BookItem extends Book implements Entity<Integer> {
     public void setBorrowed(Date borrowed) {
         this.borrowed = borrowed;
     }
+
 
     @Override
     public boolean equals(Object o) {

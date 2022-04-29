@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Patron implements Entity<Integer> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     private String name;

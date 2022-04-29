@@ -6,6 +6,7 @@ import com.example.dao.jdbc.mappers.BookItemMapper;
 import com.example.exception.DAOException;
 import com.example.exception.EntityException;
 import com.example.model.Account;
+import com.example.model.Author;
 import com.example.model.BookItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,15 +26,8 @@ public class jdbcBookItemDAO extends AbstractDAO<BookItem, Integer> implements B
     private static final String UPDATE = "UPDATE books SET title =?, isbn =?, barcode =?, status =?, borrowed =? WHERE id = ?";
     private static final String DELETE = "DELETE FROM books where id = ?";
 
-    private static final String ADD_BOOK_TO_ACCOUNT = "INSERT INTO accounts_books(book_id, account_id) VALUES ( ?, ?) ";
-    private static final String GET_BOOKS_FROM_ACCOUNT = "SELECT books.id, title, isbn, barcode, status, borrowed "
-            + "FROM books "
-            + "INNER JOIN accounts_books "
-            + "ON books.id = accounts_books.book_id "
-            + "WHERE account_id = ?";
-    private static final String REMOVE_BOOK_FROM_ACCOUNT = "DELETE FROM accounts_books "
-            + "WHERE accounts_books.account_id=? "
-            + "AND accounts_books.book_id =?";
+
+    private static final String ADD_BOOK_TO_AUTHOR = "INSERT INTO authors_books(author_id, book_id) VALUES ( ?, ?) ";;
 
     Logger logger = LoggerFactory.getLogger("JdbcBookItemDao");
 
@@ -56,13 +50,13 @@ public class jdbcBookItemDAO extends AbstractDAO<BookItem, Integer> implements B
         parameters.put("borrowed", entity.getBorrowed());
 
 
-//        try {
+        try {
             entity.setId((int) simpleJdbcInsert.executeAndReturnKey(parameters));
             return entity;
-//        } catch (DataAccessException e){
-//            logger.warn("Failed to create book '{}'", entity);
-//            throw new DAOException(e, entity);
-//        }
+        } catch (DataAccessException e){
+            logger.warn("Failed to create book '{}'", entity);
+            throw new DAOException(e, entity);
+        }
     }
 
     @Override
@@ -129,33 +123,15 @@ public class jdbcBookItemDAO extends AbstractDAO<BookItem, Integer> implements B
     }
     }
 
+
+
     @Override
-    public void addBookToAccount(BookItem book, Account account) throws DAOException{
+    public void addBookToAuthor(BookItem book, Author author) throws DAOException {
         try {
-            jdbcTemplate.update(ADD_BOOK_TO_ACCOUNT, book.getId(), account.getId());
+            jdbcTemplate.update(ADD_BOOK_TO_AUTHOR, author.getId(), book.getId());
         } catch (DataAccessException e) {
-            logger.warn("Failed to add book '{}' to account '{}'", book, account.getId());
-            throw new DAOException(e, book, account.getId());
-        }
-    }
-
-    @Override
-    public List<BookItem> getBooksFromAccount(Account account) throws DAOException{
-        try {
-            return jdbcTemplate.query(GET_BOOKS_FROM_ACCOUNT, new BookItemMapper(), account.getId());
-        } catch (DataAccessException e){
-            logger.warn("Failed to get books from account '{}'", account);
-            throw new DAOException(e, account);
-        }
-    }
-
-    @Override
-    public void removeBookFromAccount(BookItem book, Account account)  throws DAOException{
-        try {
-            jdbcTemplate.update(REMOVE_BOOK_FROM_ACCOUNT, account.getId(), book.getId());
-        } catch (DataAccessException e){
-            logger.warn("Failed to remove book '{}' from account '{}'", book, account.getId());
-            throw new DAOException(e, book, account.getId());
+            logger.warn("Failed to add book '{}' to author '{}'", book, author.getId());
+            throw new DAOException(e, book, author.getId());
         }
     }
 }

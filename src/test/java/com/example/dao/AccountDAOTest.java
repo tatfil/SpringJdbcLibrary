@@ -4,6 +4,7 @@ import com.example.exception.DAOException;
 import com.example.exception.EntityException;
 import com.example.model.Account;
 
+import com.example.model.BookItem;
 import com.example.model.Patron;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class AccountDAOTest {
 
     @Autowired
     PatronDAO patronDAO;
+
+    @Autowired
+    BookItemDAO bookDAO;
 
     @Test
     void testSave() throws DAOException {
@@ -67,5 +71,25 @@ public class AccountDAOTest {
         List<Account> accountDB = accountDAO.findAll();
 
         assertTrue(accountDB.contains(accountUpdated));
+    }
+
+    @Test
+    void addAndRemoveBookTest()  throws DAOException{
+        BookItem book = new BookItem(1, "The Adventures of Tom Sawyer", "111", null, null);
+        book.setId(bookDAO.save(book).getId());
+
+        Patron patron = new Patron("Aaaaa Bbbbb", "");
+        patron.setId(patronDAO.save(patron).getId());
+
+        Account account = new Account(patron.getId(), "");
+        account.setId(accountDAO.save(account).getId());
+
+        accountDAO.addBookToAccount(book, account);
+        List <BookItem> test = accountDAO.getBooksFromAccount(account);
+        assertTrue(test.contains(book));
+
+        accountDAO.removeBookFromAccount(book.getId(), account.getId());
+
+        assertFalse(accountDAO.getBooksFromAccount(account).contains(book));
     }
 }

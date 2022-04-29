@@ -1,6 +1,7 @@
 package com.example.exception;
 
 import com.example.model.Entity;
+import org.springframework.dao.DataAccessException;
 
 public class DAOException extends Exception {
     public DAOException(String s, Entity entity) {
@@ -35,5 +36,9 @@ public class DAOException extends Exception {
 
     public DAOException(String s) {
         super(s);
+    }
+
+    public DAOException(DataAccessException e, Integer bookItemId, Integer id) {
+
     }
 }

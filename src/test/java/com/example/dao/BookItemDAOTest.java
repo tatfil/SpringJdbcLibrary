@@ -71,24 +71,6 @@ public class BookItemDAOTest {
             book2.setId(bookDAO.save(book2).getId()) ;});
     }
 
-    @Test
-    void addAndRemoveBookTest()  throws DAOException{
-        BookItem book = new BookItem(1, "The Adventures of Tom Sawyer", "111", null, null);
-        book.setId(bookDAO.save(book).getId());
 
-        Patron patron = new Patron("Aaaaa Bbbbb", "");
-        patron.setId(patronDAO.save(patron).getId());
-
-        Account account = new Account(patron.getId(), "");
-        account.setId(accountDAO.save(account).getId());
-
-        bookDAO.addBookToAccount(book, account);
-        List <BookItem> test = bookDAO.getBooksFromAccount(account);
-        assertTrue(test.contains(book));
-
-        bookDAO.removeBookFromAccount(book, account);
-
-        assertFalse(bookDAO.getBooksFromAccount(account).contains(book));
-    }
 
 }
