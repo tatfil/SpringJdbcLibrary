@@ -22,9 +22,9 @@ public class BookItemMapper implements RowMapper<BookItem> {
         book.setId(resultSet.getInt(ID));
         book.setTitle(resultSet.getString(TITLE));
         book.setIsbn(resultSet.getInt(ISBN));
-        book.setBarcode(resultSet.getString(BARCODE));
+        book.setBarcode(resultSet.getInt(BARCODE));
         book.setStatus(resultSet.getString(STATUS));
-        book.setBorrowed(resultSet.getDate(BORROWED));
+        book.setBorrowed(resultSet.getDate(BORROWED).toLocalDate());
         return book;
     }
 }

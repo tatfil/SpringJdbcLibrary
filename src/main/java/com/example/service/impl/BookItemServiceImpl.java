@@ -3,12 +3,14 @@ package com.example.service.impl;
 import com.example.dao.BookItemDAO;
 import com.example.exception.DAOException;
 import com.example.exception.EntityException;
-import com.example.model.Account;
-import com.example.model.Author;
 import com.example.model.BookItem;
+import com.example.model.BookItemDTO;
 import com.example.service.BookItemService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,9 +50,27 @@ public class BookItemServiceImpl implements BookItemService {
     }
 
 
+    @Override
+    public void addBookToAuthor(Integer bookId, Integer authorId) throws DAOException {
+        bookItemDAO.addBookToAuthor(bookId, authorId);
+    }
 
     @Override
-    public void addBookToAuthor(BookItem book, Author author) throws DAOException {
-        bookItemDAO.addBookToAuthor(book, author);
+    public Date setDueToDate(Date startDate){
+        LocalDateTime localDateTime = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        localDateTime = localDateTime.plusDays(BookItem.CIRCULATION_PERIOD);
+        return  Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
+
+    @Override
+    public BookItemDTO getBookItemDto(BookItem bookItem) throws DAOException {
+        BookItemDTO dto = new BookItemDTO(bookItem.getId(), bookItem.getIsbn(), bookItem.getTitle(),
+                bookItem.getBarcode(), bookItem.getStatus(), bookItem.getBorrowed());
+        dto.setAuthorName(bookItemDAO.getAuthorName(bookItem.getId()));
+
+        //todo
+        //dto.setDueToDate((java.sql.Date) setDueToDate(bookItem.getBorrowed()));
+        return dto;
+    }
+
 }

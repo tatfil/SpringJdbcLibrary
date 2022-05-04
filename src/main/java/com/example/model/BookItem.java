@@ -4,21 +4,26 @@ package com.example.model;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.sql.Date;
+
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 @javax.persistence.Entity
 public class BookItem extends Book implements Entity<Integer> {
 
+    public static final Integer CIRCULATION_PERIOD = 30;
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    private String barcode;
+    private Integer barcode;
 
     private String status; //AVAILABLE, IN PROCESS, LIB USE ONLY, NOT AVAILABLE
 
-    private Date borrowed;
+    private LocalDate borrowed;
 
 
     public BookItem() {
@@ -33,7 +38,7 @@ public class BookItem extends Book implements Entity<Integer> {
         setId(id);
     }
 
-    public BookItem(Book book, String barcode, String status, Date borrowed) {
+    public BookItem(Book book, Integer barcode, String status, LocalDate borrowed) {
         setIsbn(book.getIsbn());
         setTitle(book.getTitle());
         this.barcode = barcode;
@@ -41,7 +46,7 @@ public class BookItem extends Book implements Entity<Integer> {
         this.borrowed = borrowed;
     }
 
-    public BookItem(Integer isbn, String title, String barcode, String status) {
+    public BookItem(Integer isbn, String title, Integer barcode, String status) {
         setIsbn(isbn);
         setTitle(title);
         this.barcode = barcode;
@@ -49,7 +54,7 @@ public class BookItem extends Book implements Entity<Integer> {
     }
 
 
-    public BookItem(int isbn, String title, String barcode, String status, Date borrowed) {
+    public BookItem(int isbn, String title, Integer barcode, String status, LocalDate borrowed) {
         this.setIsbn(isbn);
         this.setTitle(title);
         this.barcode = barcode;
@@ -57,7 +62,7 @@ public class BookItem extends Book implements Entity<Integer> {
         this.borrowed = borrowed;
     }
 
-    public BookItem(Integer id, int isbn, String title, String barcode, String status, Date borrowed) {
+    public BookItem(Integer id, int isbn, String title, Integer barcode, String status, LocalDate borrowed) {
         this.id = id;
         this.setIsbn(isbn);
         this.setTitle(title);
@@ -76,11 +81,11 @@ public class BookItem extends Book implements Entity<Integer> {
         this.id = id;
     }
 
-    public String getBarcode() {
+    public Integer getBarcode() {
         return barcode;
     }
 
-    public void setBarcode(String barcode) {
+    public void setBarcode(Integer barcode) {
         this.barcode = barcode;
     }
 
@@ -92,11 +97,11 @@ public class BookItem extends Book implements Entity<Integer> {
         this.status = status;
     }
 
-    public Date getBorrowed() {
+    public LocalDate getBorrowed() {
         return borrowed;
     }
 
-    public void setBorrowed(Date borrowed) {
+    public void setBorrowed(LocalDate borrowed) {
         this.borrowed = borrowed;
     }
 
@@ -113,15 +118,5 @@ public class BookItem extends Book implements Entity<Integer> {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), id, barcode, status, borrowed);
-    }
-
-    @Override
-    public String toString() {
-        return "BookItem{" +
-                "id=" + id +
-                ", barcode='" + barcode + '\'' +
-                ", status='" + status + '\'' +
-                ", borrowed=" + borrowed +
-                '}';
     }
 }

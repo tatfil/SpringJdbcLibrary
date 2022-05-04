@@ -5,8 +5,6 @@ import com.example.dao.BookItemDAO;
 import com.example.dao.jdbc.mappers.BookItemMapper;
 import com.example.exception.DAOException;
 import com.example.exception.EntityException;
-import com.example.model.Account;
-import com.example.model.Author;
 import com.example.model.BookItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +26,11 @@ public class jdbcBookItemDAO extends AbstractDAO<BookItem, Integer> implements B
 
 
     private static final String ADD_BOOK_TO_AUTHOR = "INSERT INTO authors_books(author_id, book_id) VALUES ( ?, ?) ";;
+    private static final String GET_AUTHOR_NAME = "SELECT authors.name FROM authors " +
+            "INNER JOIN authors_books on authors.id = authors_books.author_id " +
+            "WHERE authors_books.book_id = ? ";
+
+    private static final String SET_BOOK_BORROWED_DATE = "";
 
     Logger logger = LoggerFactory.getLogger("JdbcBookItemDao");
 
@@ -126,12 +129,34 @@ public class jdbcBookItemDAO extends AbstractDAO<BookItem, Integer> implements B
 
 
     @Override
-    public void addBookToAuthor(BookItem book, Author author) throws DAOException {
+    public void addBookToAuthor(Integer bookId, Integer authorId) throws DAOException {
         try {
-            jdbcTemplate.update(ADD_BOOK_TO_AUTHOR, author.getId(), book.getId());
+            jdbcTemplate.update(ADD_BOOK_TO_AUTHOR, authorId, bookId);
         } catch (DataAccessException e) {
-            logger.warn("Failed to add book '{}' to author '{}'", book, author.getId());
-            throw new DAOException(e, book, author.getId());
+            logger.warn("Failed to add book '{}' to author '{}'", bookId, authorId);
+            throw new DAOException(e, bookId, authorId);
+        }
+    }
+
+    @Override
+    //todo Optional
+    public String getAuthorName(Integer bookItemId) throws DAOException {
+//        try {
+            return this.jdbcTemplate.queryForObject(GET_AUTHOR_NAME, String.class, bookItemId);
+//        } catch (DataAccessException e) {
+//            logger.warn("Failed to get author of book '{}'", bookItemId);
+//            throw new DAOException(e, bookItemId);
+//        }
+
+    }
+
+    @Override
+    public void setBorrowedDate(Integer bookItemId) throws DAOException {
+        try {
+            jdbcTemplate.update(SET_BOOK_BORROWED_DATE, bookItemId);
+        } catch (DataAccessException e) {
+            logger.warn("Failed to set book borrowed date '{}'", bookItemId);
+            throw new DAOException(e, bookItemId);
         }
     }
 }

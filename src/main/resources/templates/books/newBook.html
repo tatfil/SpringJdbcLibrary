@@ -52,7 +52,8 @@
             </li>
         </ul>
     </div>
-</nav><div class="container">
+</nav>
+<div class="container">
     <main>
         <div class="py-5 text-center">
             <h2>New book form</h2>
@@ -61,50 +62,48 @@
         <div class="row g-5">
             <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">Book information</h4>
-                <form class="needs-validation" novalidate="" th:action="@{/newBook}" th:object="${bookItem}" method="post">
-                    <div class="row g-3">
-                        <div class="col-sm-12">
-                            <label for="title" class="form-label">Book title</label>
-                            <input type="text" th:field="*{title}" class="form-control" id="title" placeholder=""
-                                   required="">
-                            <div class="invalid-feedback">
-                                Book title is required.
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <label for="isbn" class="form-label">ISBN</label>
-                            <input type="number" th:field="*{isbn}" class="form-control" id="isbn" placeholder=""
-                                   required="">
-                            <div class="invalid-feedback">
-                                Book isbn is required.
-                            </div>
-                        </div>
+                <form class="row g-3" th:action="@{/newBook}" th:object="${bookItem}" method="post">
+                    <div class="col-sm-12">
+                        <label for="title" class="form-label">Book title</label>
+                        <input type="text" th:field="${bookItem.title}" class="form-control" id="title" required>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="isbn" class="form-label">ISBN</label>
+                        <input type="number" th:field="${bookItem.isbn}" class="form-control" id="isbn" required>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="barcode" class="form-label">Barcode</label>
+                        <input type="text" th:field="${bookItem.barcode}" class="form-control" id="barcode" required>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="author" class="form-label">Author</label>
+                        <input type="text" th:field="${author.name}" class="form-control" id="author" required>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="status" class="form-label">Status</label>
+                        <select id="status" class="form-select" aria-label="Default select example"
+                                th:field="${bookItem.status}">
+                            <option value="AVAILABLE">AVAILABLE</option>
+                            <option value="IN PROCESS">IN PROCESS</option>
+                            <option value="LIB USE ONLY">LIB USE ONLY</option>
+                            <option value="NOT AVAILABLE">NOT AVAILABLE</option>
+                        </select>
+                    </div>
 
-                        <div class="col-sm-12">
-                            <label for="barcode" class="form-label">Barcode</label>
-                            <input type="text" th:field="*{barcode}" class="form-control" id="barcode" placeholder=""
-                                   required="">
-                            <div class="invalid-feedback">
-                                Book barcode is required.
-                            </div>
-                        </div>
+                    <!--                        <div th:if="${bookItem.status eq T(PACKAGE.ENUM).IN_PROGRESS}">-->
+                    <div th:if="${status eq 'IN PROGRESS'}">
+                        <label for="borrowed" class="form-label">Borrowed Date</label>
+                        <input type="text" th:field="${bookItem.borrowed}" class="form-control" id="borrowed"
+                               placeholder=""
+                               required="">
+                    </div>
 
-                        <div class="col-sm-12">
-                            <label for="status" class="form-label">Book status</label>
-                            <input type="text" th:field="*{status}" class="form-control" id="status" placeholder=""
-                                   required="">
-                            <div class="invalid-feedback">
-                                Book status is required.
-                            </div>
-                        </div>
+                    <div class="col-12">
+                        <button type="submit" th:formaction="@{/newBook}"
+                                name="save"
+                                class="w-100 btn btn-primary btn-lg">save
+                        </button>
 
-                        <div class="col-12">
-                            <button type="submit" th:formaction="@{/newBook}"
-                                    name="save"
-                                    class="w-100 btn btn-primary btn-lg">save
-                            </button>
-
-                        </div>
                     </div>
                 </form>
             </div>

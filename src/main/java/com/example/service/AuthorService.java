@@ -16,4 +16,6 @@ public interface AuthorService {
     Author save(Author entity) throws DAOException;
 
     void deleteById(Integer id) throws DAOException, EntityException;
+
+    Optional<Author> findByName(String name)  throws DAOException;
 }

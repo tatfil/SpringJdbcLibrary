@@ -12,6 +12,7 @@ public class LibraryApplication {
         SpringApplication.run(LibraryApplication.class, args);
 
         System.out.println("!!!");
+        System.out.println("!!!");
     }
 
 }

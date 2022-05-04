@@ -44,20 +44,20 @@ public class Utils {
 
 
         Book book1 = new Book(12234568, "The Adventures of Tom Sawyer");
-        BookItem bookItem11 = new BookItem(book1, "11111", "NOT AVAILABLE", null);
+        BookItem bookItem11 = new BookItem(book1, 11111, "NOT AVAILABLE", null);
         bookItemService.save(bookItem11);
 
         Book book2 = new Book(45678412, "Jungle Book");
-        BookItem bookItem21 = new BookItem(book2, "22222", "AVAILABLE", null);
+        BookItem bookItem21 = new BookItem(book2, 22222, "AVAILABLE", null);
         bookItemService.save(bookItem21);
 
         Book book3 = new Book(56485123, "Paddington''s Day Off");
-        BookItem bookItem31 = new BookItem(book2, "33333", "NOT AVAILABLE", null);
+        BookItem bookItem31 = new BookItem(book2, 33333, "NOT AVAILABLE", null);
         bookItemService.save(bookItem31);
 
-        bookItemService.addBookToAuthor(bookItem11, author1);
-        bookItemService.addBookToAuthor(bookItem21, author2);
-        bookItemService.addBookToAuthor(bookItem31, author3);
+        bookItemService.addBookToAuthor(bookItem11.getId(), author1.getId());
+        bookItemService.addBookToAuthor(bookItem21.getId(), author2.getId());
+        bookItemService.addBookToAuthor(bookItem31.getId(), author3.getId());
 
 
     }

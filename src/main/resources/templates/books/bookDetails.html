@@ -19,7 +19,7 @@
 </head>
 <body>
 
-<<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <ul class="navbar-nav">
             <a class="navbar-brand" href="/">Library</a>
@@ -36,7 +36,7 @@
     <h2>Book Information</h2>
 
 
-    <table class="table table-striped" th:object="${bookItem}">
+    <table class="table table-striped" th:object="${bookItemDTO}">
 
         <tr>
             <th>Title</th>
@@ -47,13 +47,29 @@
             <td th:text="*{isbn}" /></td>
         </tr>
         <tr>
+            <th>Author</th>
+            <td th:text="*{authorName}" /></td>
+        </tr>
+        <tr>
             <th>Status</th>
             <td th:text="*{status}" /></td>
         </tr>
 
+<!--        <div th:switch="${bookItemDTO.getStatus()}" >-->
+<!--            <tr th:case="'IN PROCESS'">-->
+<!--                <th>Not available until</th>-->
+<!--                <td th:text="*{dueToDate}" /></td>-->
+<!--            </tr>-->
+<!--        </div>-->
+
+        <div th:if="${bookItemDTO.status eq 'IN PROGRESS'}">
+           <th>Not available until</th>
+           <td th:text="*{dueToDate}" /></td>
+        </div>
+
     </table>
 
-    <a th:href="@{{id}/edit(id=${bookItem.id})}" class="btn btn-primary btn-lg active">Edit Book</a>
+    <a th:href="@{{id}/edit(id=${bookItemDTO.id})}" class="btn btn-primary btn-lg active">Edit Book</a>
 
 </div>
 

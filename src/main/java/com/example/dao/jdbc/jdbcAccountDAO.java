@@ -25,7 +25,10 @@ public class jdbcAccountDAO extends AbstractDAO<Account, Integer> implements Acc
     private static final String UPDATE = "UPDATE accounts SET patron_id = ?, state = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM accounts where id = ?";
 
-    private static final String GET_PATRON_NAME = "SELECT patrons.name FROM patrons where patrons.id = ?";
+    private static final String GET_PATRON_NAME = "SELECT patrons.name FROM patrons "
+            + "INNER JOIN accounts "
+            + "ON accounts.patron_id = patrons.id "
+            + "WHERE accounts.id = ?";
 
     private static final String ADD_BOOK_TO_ACCOUNT = "INSERT INTO accounts_books(book_id, account_id) VALUES ( ?, ?) ";
     private static final String GET_BOOKS_FROM_ACCOUNT = "SELECT books.id, title, isbn, barcode, status, borrowed "

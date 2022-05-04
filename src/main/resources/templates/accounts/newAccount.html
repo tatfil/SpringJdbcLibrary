@@ -40,7 +40,7 @@
 
 </head>
 <body class="bg-light">
-<<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <ul class="navbar-nav">
             <a class="navbar-brand" href="/">Library</a>
@@ -58,44 +58,30 @@
         <div class="py-5 text-center">
             <h2>New account form</h2>
         </div>
-
         <div class="row g-5">
             <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">Account information</h4>
-                <form class="needs-validation" novalidate="" th:action="@{/newAccount}" method="post">
-                    <div class="row g-3">
-                        <div class="col-sm-12">
-                            <label for="name" class="form-label">Patron name</label>
-                            <input type="text" th:field="${patron.name}" class="form-control" id="name" placeholder=""
-                                   required="">
-                            <div class="invalid-feedback">
-                                Patron name is required.
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" th:field="${patron.address}" class="form-control" id="address"
-                                   placeholder="1234 Main St" required="">
-                            <div class="invalid-feedback">
-                                Patron address is required.
-                            </div>
-                        </div>
+                <form class="row g-3" th:action="@{/newAccount}" method="post">
+
+                    <div class="col-sm-12">
+                        <label for="name" class="form-label">Patron name</label>
+                        <input type="text" th:field="${patron.name}" class="form-control" id="name" required>
                     </div>
-                    <div class="row g-3">
-                        <div class="col-sm-12">
-                            <label for="state" class="form-label">Account state</label>
-                            <input type="text" th:field="${account.state}" class="form-control" id="state"
-                                   placeholder="" required="">
-                            <div class="invalid-feedback">
-                                Account state is required.
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" th:formaction="@{/accounts/newAccount}"
-                                    name="save"
-                                    class="w-100 btn btn-primary btn-lg">save
-                            </button>
-                        </div>
+                    <div class="col-sm-12">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" th:field="${patron.address}" class="form-control" id="address"
+                               placeholder="1234 Main St" required>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="state" class="form-label">Account state</label>
+                        <input type="text" th:field="${account.state}" class="form-control" id="state" placeholder=""
+                               required>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" th:formaction="@{/accounts/newAccount}"
+                                name="save"
+                                class="w-100 btn btn-primary btn-lg">save
+                        </button>
                     </div>
                 </form>
             </div>

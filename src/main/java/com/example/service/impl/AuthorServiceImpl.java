@@ -5,10 +5,12 @@ import com.example.exception.DAOException;
 import com.example.exception.EntityException;
 import com.example.model.Author;
 import com.example.service.AuthorService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AuthorServiceImpl implements AuthorService {
 
     AuthorDAO authorDAO;
@@ -35,5 +37,10 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public void deleteById(Integer id) throws DAOException, EntityException {
         authorDAO.deleteById(id);
+    }
+
+    @Override
+    public Optional<Author> findByName(String name) throws DAOException {
+        return authorDAO.findByName(name);
     }
 }

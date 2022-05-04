@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +50,7 @@ public class AccountController {
         }
 
         model.addAttribute("accountPage", accountDTOS);
-        return "accounts/accounts.html";
+        return "accounts/accountsList.html";
     }
 
     @GetMapping("/accounts/newAccount")
@@ -64,7 +69,7 @@ public class AccountController {
         Account accountNew = new Account();
         accountNew.setPatronId(patronId);
         accountNew.setState(account.getState());
-        accountService.save(accountNew);
+        accountNew.setId(accountService.save(accountNew).getId());
 
         return "redirect:/accounts/" + accountNew.getId();
     }
@@ -76,6 +81,7 @@ public class AccountController {
         AccountDTO accountDTO = accountService.getAccountDTO(account);
         model.addAttribute("accountDTO", accountDTO);
         model.addAttribute("bookItem", new BookItem());
+        model.addAttribute("java8Instant", LocalDate.now());
         return "accounts/accountDetails";
     }
 
@@ -87,7 +93,7 @@ public class AccountController {
         AccountDTO accountDTO = accountService.getAccountDTO(account);
         model.addAttribute("accountDTO", accountDTO);
         model.addAttribute("bookItem", new BookItem());
-        return "accounts/accountDetails";
+        return "redirect:/accounts/" + account.getId();
     }
 
 
@@ -99,16 +105,23 @@ public class AccountController {
     }
 
 
-    @PostMapping("/accounts/{accountId}/books/{bookTitle}/borrowNew")
+    @PostMapping("/accounts/{accountId}/books/borrowNew")
     public String borrowBookItem(@PathVariable("accountId") int accountId, @ModelAttribute("bookItem") BookItem bookItem, Model model) throws DAOException {
 
         BookItem bookItemNew = bookItemService.findByTitle(bookItem.getTitle()).get();
+
+        LocalDate localDate = LocalDate.now();
+        bookItemNew.setBorrowed(localDate);
+
+        bookItemService.save(bookItemNew);
+
         Account account = accountService.findById(accountId).get();
         accountService.addBookToAccount(bookItemNew, account);
 
         AccountDTO accountDTO = accountService.getAccountDTO(account);
         model.addAttribute("accountDTO", accountDTO);
-        model.addAttribute("bookItem", new BookItem());
+        model.addAttribute("bookItem", bookItemNew);
         return "redirect:/accounts/" + account.getId();
     }
+
 }

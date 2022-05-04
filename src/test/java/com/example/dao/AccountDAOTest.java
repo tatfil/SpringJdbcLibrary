@@ -75,7 +75,7 @@ public class AccountDAOTest {
 
     @Test
     void addAndRemoveBookTest()  throws DAOException{
-        BookItem book = new BookItem(1, "The Adventures of Tom Sawyer", "111", null, null);
+        BookItem book = new BookItem(1, "The Adventures of Tom Sawyer", 111, null, null);
         book.setId(bookDAO.save(book).getId());
 
         Patron patron = new Patron("Aaaaa Bbbbb", "");

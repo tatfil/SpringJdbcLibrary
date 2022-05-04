@@ -20,7 +20,7 @@
 <body>
 
 
-<<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <ul class="navbar-nav">
             <a class="navbar-brand" href="/">Library</a>
@@ -65,7 +65,8 @@
                 </dl>
                 <dl class="dl-horizontal">
                     <dt>Borrowed</dt>
-                    <dd th:text="${bookItem.borrowed}" /></dd>
+<!--                    <dd th:text="${bookItem.borrowed}" /></dd>-->
+                    <dd th:text="${#temporals.format(bookItem.borrowed, 'dd-MM-yyyy')}"></dd>
                 </dl>
                 <a th:href="@{{accountId}/books/{bookId}/return(accountId=${accountDTO.id},bookId=${bookItem.id})}" class="btn btn-primary btn-lg active">Return book</a>
             </td>
@@ -77,7 +78,5 @@
     </table>
 
 </div>
-
-
 </body>
 </html>
