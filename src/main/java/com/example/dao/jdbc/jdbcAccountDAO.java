@@ -156,12 +156,12 @@ public class jdbcAccountDAO extends AbstractDAO<Account, Integer> implements Acc
     }
 
     @Override
-    public void removeBookFromAccount(Integer bookItemId, Integer accountId)  throws DAOException{
+    public void removeBookFromAccount(BookItem book, Integer accountId)  throws DAOException{
         try {
-            jdbcTemplate.update(REMOVE_BOOK_FROM_ACCOUNT, accountId, bookItemId);
+            jdbcTemplate.update(REMOVE_BOOK_FROM_ACCOUNT, accountId, book.getId());
         } catch (DataAccessException e){
-            logger.warn("Failed to remove book '{}' from account '{}'", bookItemId, accountId);
-            throw new DAOException(e, bookItemId, accountId);
+            logger.warn("Failed to remove book '{}' from account '{}'", book.getId(), accountId);
+            throw new DAOException(e, book.getId(), accountId);
         }
     }
 

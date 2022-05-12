@@ -71,6 +71,14 @@ public class BookItem extends Book implements Entity<Integer> {
         this.borrowed = borrowed;
     }
 
+    public BookItem(Integer id, String title, LocalDate borrowed) {
+        this.id = id;
+        this.setTitle(title);
+        this.borrowed = borrowed;
+    }
+
+
+
     @Override
     public Integer getId() {
         return id;
@@ -98,7 +106,7 @@ public class BookItem extends Book implements Entity<Integer> {
     }
 
     public LocalDate getBorrowed() {
-        return borrowed;
+        return (borrowed);
     }
 
     public void setBorrowed(LocalDate borrowed) {

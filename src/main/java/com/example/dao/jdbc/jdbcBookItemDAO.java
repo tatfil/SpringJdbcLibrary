@@ -141,12 +141,12 @@ public class jdbcBookItemDAO extends AbstractDAO<BookItem, Integer> implements B
     @Override
     //todo Optional
     public String getAuthorName(Integer bookItemId) throws DAOException {
-//        try {
+        try {
             return this.jdbcTemplate.queryForObject(GET_AUTHOR_NAME, String.class, bookItemId);
-//        } catch (DataAccessException e) {
-//            logger.warn("Failed to get author of book '{}'", bookItemId);
-//            throw new DAOException(e, bookItemId);
-//        }
+        } catch (DataAccessException e) {
+            logger.warn("Failed to get author of book '{}'", bookItemId);
+            throw new DAOException(e, bookItemId);
+        }
 
     }
 

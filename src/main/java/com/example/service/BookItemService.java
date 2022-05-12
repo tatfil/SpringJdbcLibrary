@@ -28,4 +28,6 @@ public interface BookItemService {
     Date setDueToDate(Date startDate);
 
     BookItemDTO getBookItemDto(BookItem bookItem) throws DAOException;
+
+    String validateBookItem(BookItem bookItem);
 }

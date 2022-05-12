@@ -1,5 +1,7 @@
 package com.example.controller;
+import javax.validation.Valid;
 
+import com.example.exception.BookAvailableException;
 import com.example.exception.DAOException;
 import com.example.model.Account;
 import com.example.model.AccountDTO;
@@ -11,18 +13,20 @@ import com.example.service.PatronService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.util.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 @Controller
@@ -62,16 +66,10 @@ public class AccountController {
 
 
     @PostMapping("/accounts/newAccount")
-    public String newAccount(@ModelAttribute("account") Account account, @ModelAttribute("patron")Patron patron, Model model) throws DAOException {
-
-        Integer patronId = patronService.save(patron).getId();
-
-        Account accountNew = new Account();
-        accountNew.setPatronId(patronId);
-        accountNew.setState(account.getState());
-        accountNew.setId(accountService.save(accountNew).getId());
-
-        return "redirect:/accounts/" + accountNew.getId();
+    public String newAccount(Account account, Patron patron) throws DAOException {
+        account.setPatronId(patronService.save(patron).getId());
+        account.setId(accountService.save(account).getId());
+        return "redirect:/accounts/" + account.getId();
     }
 
     @GetMapping("/accounts/{accountId}")
@@ -88,7 +86,8 @@ public class AccountController {
     @GetMapping("/accounts/{accountId}/books/{bookId}/return")
     public String returnBookItem(@PathVariable("accountId") int accountId, @PathVariable("bookId") int bookItemId, Model model) throws DAOException {
         Account account = accountService.findById(accountId).get();
-        accountService.removeBookFromAccount(bookItemId, accountId);
+        BookItem bookItem = bookItemService.findById(bookItemId).get();
+        accountService.removeBookFromAccount(bookItem, accountId);
 
         AccountDTO accountDTO = accountService.getAccountDTO(account);
         model.addAttribute("accountDTO", accountDTO);
@@ -106,11 +105,25 @@ public class AccountController {
 
 
     @PostMapping("/accounts/{accountId}/books/borrowNew")
-    public String borrowBookItem(@PathVariable("accountId") int accountId, @ModelAttribute("bookItem") BookItem bookItem, Model model) throws DAOException {
+    public String borrowBookItem(@PathVariable("accountId") int accountId, @Valid BookItem bookItem, BindingResult result, Model model) throws DAOException, BookAvailableException {
 
         BookItem bookItemNew = bookItemService.findByTitle(bookItem.getTitle()).get();
 
+        String err = bookItemService.validateBookItem(bookItemNew);
+        if (!err.isEmpty()) {
+            ObjectError error = new ObjectError("globalError", err);
+            result.addError(error);
+        }
+        if (result.hasErrors()) {
+            return "accounts/borrowBook";
+        }
+
         LocalDate localDate = LocalDate.now();
+
+//        bookItemNew.setBorrowed(java.util.Date.from(localDate.atStartOfDay()
+//                .atZone(ZoneId.systemDefault())
+//                .toInstant()));
+
         bookItemNew.setBorrowed(localDate);
 
         bookItemService.save(bookItemNew);
@@ -123,5 +136,4 @@ public class AccountController {
         model.addAttribute("bookItem", bookItemNew);
         return "redirect:/accounts/" + account.getId();
     }
-
 }

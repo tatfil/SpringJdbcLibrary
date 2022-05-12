@@ -40,6 +40,14 @@ public class BookItemDTO {
         this.borrowed = borrowed;
     }
 
+    public BookItemDTO(Integer id, int isbn, String title, Integer barcode, String status) {
+        this.id = id;
+        this.isbn = isbn;
+        this.title = title;
+        this.barcode = barcode;
+        this.status = status;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -88,8 +96,8 @@ public class BookItemDTO {
         this.status = status;
     }
 
-    public LocalDate getBorrowed() {
-        return borrowed;
+    public Optional <LocalDate> getBorrowed() {
+        return Optional.ofNullable(borrowed);
     }
 
     public void setBorrowed(LocalDate borrowed) {

@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
+
+
 @javax.persistence.Entity
 public class Account implements Entity<Integer> {
 
@@ -11,6 +13,7 @@ public class Account implements Entity<Integer> {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
+    @Column(name = "patron_id")
     private Integer patronId;
 
     private String state;

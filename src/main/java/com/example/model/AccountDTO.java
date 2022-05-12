@@ -13,6 +13,11 @@ public class AccountDTO {
     public AccountDTO() {
     }
 
+    public AccountDTO(Account account){
+        this.id = account.getId();
+        this.state = account.getState();
+    }
+
     public AccountDTO(String patronName) {
         this.patronName = patronName;
     }

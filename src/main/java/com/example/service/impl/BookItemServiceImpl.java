@@ -5,6 +5,7 @@ import com.example.exception.DAOException;
 import com.example.exception.EntityException;
 import com.example.model.BookItem;
 import com.example.model.BookItemDTO;
+import com.example.model.BookStatus;
 import com.example.service.BookItemService;
 import org.springframework.stereotype.Service;
 
@@ -65,12 +66,22 @@ public class BookItemServiceImpl implements BookItemService {
     @Override
     public BookItemDTO getBookItemDto(BookItem bookItem) throws DAOException {
         BookItemDTO dto = new BookItemDTO(bookItem.getId(), bookItem.getIsbn(), bookItem.getTitle(),
-                bookItem.getBarcode(), bookItem.getStatus(), bookItem.getBorrowed());
+                bookItem.getBarcode(), bookItem.getStatus());
         dto.setAuthorName(bookItemDAO.getAuthorName(bookItem.getId()));
 
         //todo
         //dto.setDueToDate((java.sql.Date) setDueToDate(bookItem.getBorrowed()));
         return dto;
+    }
+
+    //todo Title isn't unique! Use barcode
+    @Override
+    public String validateBookItem(BookItem bookItem) {
+        String message = "";
+        if (!bookItem.getStatus().equals(BookStatus.AVAILABLE.toString())) {
+            message = bookItem.getTitle() + " is not available";
+        }
+        return message;
     }
 
 }

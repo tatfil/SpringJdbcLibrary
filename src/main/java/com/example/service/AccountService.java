@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.exception.BookAvailableException;
 import com.example.exception.DAOException;
 import com.example.exception.EntityException;
 import com.example.model.Account;
@@ -23,9 +24,9 @@ public interface AccountService {
 
     AccountDTO getAccountDTO(Account account) throws DAOException;
 
-    void addBookToAccount(BookItem book, Account account) throws DAOException;
+    void addBookToAccount(BookItem book, Account account) throws DAOException, BookAvailableException;
 
     List<BookItem> getBooksFromAccount(Account account) throws DAOException;
 
-    void removeBookFromAccount(Integer bookItemId, Integer accountId)  throws DAOException;
+    void removeBookFromAccount(BookItem book, Integer accountId)  throws DAOException;
 }

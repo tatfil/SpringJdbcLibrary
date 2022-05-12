@@ -1,11 +1,13 @@
 package com.example.service.impl;
 
 import com.example.dao.AccountDAO;
+import com.example.dao.BookItemDAO;
 import com.example.exception.DAOException;
 import com.example.exception.EntityException;
 import com.example.model.Account;
 import com.example.model.AccountDTO;
 import com.example.model.BookItem;
+import com.example.model.BookStatus;
 import com.example.service.AccountService;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +19,11 @@ import java.util.Set;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountDAO accountDAO;
+    private final BookItemDAO bookItemDAO;
 
-    public AccountServiceImpl(AccountDAO accountDAO) {
+    public AccountServiceImpl(AccountDAO accountDAO, BookItemDAO bookItemDAO) {
         this.accountDAO = accountDAO;
+        this.bookItemDAO = bookItemDAO;
     }
 
     @Override
@@ -58,8 +62,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void addBookToAccount(BookItem book, Account account) throws DAOException {
-        accountDAO.addBookToAccount(book, account);
+    public void addBookToAccount(BookItem book, Account account) throws DAOException{
+       accountDAO.addBookToAccount(book, account);
+       book.setStatus(BookStatus.IN_PROCESS.toString());
+       bookItemDAO.save(book);
+
     }
 
     @Override
@@ -68,7 +75,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void removeBookFromAccount(Integer bookItemId, Integer accountId) throws DAOException {
-        accountDAO.removeBookFromAccount(bookItemId, accountId);
+    public void removeBookFromAccount(BookItem book, Integer accountId) throws DAOException {
+        accountDAO.removeBookFromAccount(book, accountId);
+        book.setStatus(BookStatus.IN_PROCESS.toString());
+        bookItemDAO.save(book);
     }
 }

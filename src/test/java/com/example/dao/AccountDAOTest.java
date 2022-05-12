@@ -88,7 +88,7 @@ public class AccountDAOTest {
         List <BookItem> test = accountDAO.getBooksFromAccount(account);
         assertTrue(test.contains(book));
 
-        accountDAO.removeBookFromAccount(book.getId(), account.getId());
+        accountDAO.removeBookFromAccount(book, account.getId());
 
         assertFalse(accountDAO.getBooksFromAccount(account).contains(book));
     }

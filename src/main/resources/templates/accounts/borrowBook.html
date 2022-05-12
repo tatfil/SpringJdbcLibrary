@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<style>
 
+<style>
+    .error {
+        color: red;
+    }
 </style>
+
 <head>
     <!-- Обязательные метатеги -->
     <meta charset="utf-8">
@@ -49,6 +53,10 @@
                     <div class="col-sm-12">
                         <label for="title" class="form-label">Book title</label>
                         <input type="text" th:field="${bookItem.title}" class="form-control" id="title" required>
+                    </div>
+
+                    <div th:if="${#fields.hasErrors('global')}">
+                        <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />
                     </div>
 
                     <div class="col-12">

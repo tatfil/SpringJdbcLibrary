@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.model.BookItem;
+import com.example.service.AuthorService;
 import com.example.service.BookItemService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ class BookItemControllerTest {
     @MockBean
     BookItemService bookItemService;
 
+    @MockBean
+    AuthorService authorService;
+
     @Autowired
     private MockMvc mvc;
 
@@ -38,7 +42,7 @@ class BookItemControllerTest {
 
         when(bookItemService.findAll()).thenReturn( bookItems);
 
-        mvc.perform(MockMvcRequestBuilders.get("/books"))
+        mvc.perform(MockMvcRequestBuilders.get("/books/booksList"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("booksList.html"))
 
@@ -55,5 +59,7 @@ class BookItemControllerTest {
                                         hasItem(
                                                 allOf(hasProperty("id", is(2)), hasProperty("title", is("2"))))));
     }
+
+
 
 }

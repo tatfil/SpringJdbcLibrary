@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 @Component
 public class BookItemMapper implements RowMapper<BookItem> {
@@ -24,7 +25,14 @@ public class BookItemMapper implements RowMapper<BookItem> {
         book.setIsbn(resultSet.getInt(ISBN));
         book.setBarcode(resultSet.getInt(BARCODE));
         book.setStatus(resultSet.getString(STATUS));
-        book.setBorrowed(resultSet.getDate(BORROWED).toLocalDate());
+
+
+        Optional<java.sql.Date> date = Optional.ofNullable(resultSet.getDate(BORROWED));
+
+        if(date.isEmpty())
+            book.setBorrowed(null);
+        else
+            book.setBorrowed(date.get().toLocalDate());
         return book;
     }
 }

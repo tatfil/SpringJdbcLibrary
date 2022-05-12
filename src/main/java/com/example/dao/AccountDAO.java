@@ -16,5 +16,5 @@ public interface AccountDAO extends DAO<Account, Integer> {
 
     List<BookItem> getBooksFromAccount(Account account) throws DAOException;
 
-    void removeBookFromAccount(Integer bookItemId, Integer accountId)  throws DAOException;
+    void removeBookFromAccount(BookItem book, Integer accountId)  throws DAOException;
 }

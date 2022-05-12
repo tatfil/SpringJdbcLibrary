@@ -53,7 +53,7 @@ public class BookItemController {
     public String newBook(@ModelAttribute("bookItem") BookItem bookItem, @ModelAttribute("author") Author author, Model model) throws DAOException {
 
         Integer id = bookItemService.save(new BookItem(bookItem.getIsbn(), bookItem.getTitle(), bookItem.getBarcode(),
-                bookItem.getStatus(), bookItem.getBorrowed())).getId();
+                bookItem.getStatus())).getId();
 
         Optional<Author> authorDb = authorService.findByName(author.getName());
 
@@ -66,20 +66,6 @@ public class BookItemController {
         }
         return "redirect:/books/" + id;
     }
-
-    /**
-     * Custom handler for displaying an owner.
-     *
-     * @param bookId the ID of the owner to display
-     * @return a ModelMap with the model attributes for the view
-     */
-//    @GetMapping("/books/{bookId}")
-//    public ModelAndView showBook(@PathVariable("bookId") int bookId) throws DAOException {
-//        var mav = new ModelAndView("bookDetails");
-//        BookItem bookItem = bookItemService.findById(bookId).get();
-//        mav.addObject(bookItem);
-//        return mav;
-//    }
 
     @GetMapping("/books/{bookId}")
     public String showBook(@PathVariable("bookId") int bookId, Model model) throws DAOException {
